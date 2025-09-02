@@ -5,11 +5,12 @@ dotenv.config();
 interface IEnvConfig {
     PORT: string;
     DB_URL: string;
-    NODE_ENV: "development" | "production"
+    NODE_ENV: "development" | "production";
+    BCRYPT_SLOT_ROUND: string
 };
 
 const localVariables = (): IEnvConfig => {
-    const requiredVariable: string[] = ["PORT", "DB_URL", "NODE_ENV"];
+    const requiredVariable: string[] = ["PORT", "DB_URL", "NODE_ENV", "BCRYPT_SLOT_ROUND"];
 
     requiredVariable.forEach(key => {
         if (!process.env[key]) {
@@ -20,6 +21,7 @@ const localVariables = (): IEnvConfig => {
         PORT: process.env.PORT as string,
         DB_URL: process.env.DB_URL as string,
         NODE_ENV: process.env.NODE_ENV as "development" | "production",
+        BCRYPT_SLOT_ROUND: process.env.BCRYPT_SLOT_ROUND as string,
     }
 };
 
