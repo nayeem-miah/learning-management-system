@@ -1,3 +1,4 @@
+import { JwtPayload } from "jsonwebtoken";
 import { envVars } from "../../config/env";
 import { IUser } from "./user.interface";
 import { User } from "./user.model";
@@ -26,9 +27,23 @@ const createUser = async (payload: Partial<IUser>) => {
     }
 };
 
+const getAll = async () => {
+    const result = await User.find()
+
+    return { data: result }
+};
+
+const getMe = async (decodedToken: JwtPayload) => {
+
+    const result = await User.findById(decodedToken.userId).select("-password")
+    return { data: result }
+};
+
 
 
 
 export const UserService = {
-    createUser
+    createUser,
+    getAll,
+    getMe
 }

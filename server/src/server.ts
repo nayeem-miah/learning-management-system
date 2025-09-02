@@ -2,9 +2,10 @@ import mongoose from "mongoose";
 import { Server } from "http"
 import { envVars } from "./app/config/env";
 import app from "./app";
+import { seedAdmin } from "./app/utils/seedAdmin";
 let server: Server;
 
-const stateServer = async () => {
+const startServer = async () => {
     try {
         await mongoose.connect(envVars.DB_URL);
         console.log("Connected to DB!");
@@ -17,4 +18,7 @@ const stateServer = async () => {
     }
 };
 
-stateServer();
+(async () => {
+    await startServer()
+    await seedAdmin()
+})()

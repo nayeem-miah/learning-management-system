@@ -25,7 +25,7 @@ const logout = catchAsync(async (req: Request, res: Response) => {
         sameSite: "lax"
     })
 
-    res.status(201).json({
+    res.status(200).json({
         success: true,
         statusCode: 200,
         message: "User logout success",
