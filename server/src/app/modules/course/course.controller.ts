@@ -59,11 +59,11 @@ const deletedCourse = catchAsync(async (req: Request, res: Response) => {
     const { id } = req.params;
 
     const result = await CourseService.deletedCourse(id);
-    console.log(result);
+
     res.status(200).json({
         success: true,
         statusCode: 200,
-        message: "course deleted updated success",
+        message: `${result.data?.title} is deleted`,
         data: result.data
     })
 
