@@ -17,6 +17,14 @@ router.get("/:id",
     checkAuth(Role.ADMIN),
     CourseController.getSingleCourse
 );
+router.patch("/update/:id",
+    checkAuth(Role.ADMIN),
+    CourseController.updatedCourse
+);
+router.delete("/delete/:id",
+    checkAuth(Role.ADMIN),
+    CourseController.deletedCourse
+);
 
 
 export const CourseRoutes = router;

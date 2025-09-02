@@ -27,11 +27,31 @@ const getSingleCourse = async (id: string) => {
         data: course
     }
 }
+const updatedCourse = async (id: string, payload: Partial<ICourse>) => {
+    const updateData = {
+        ...payload
+    }
+    const course = await Course.findByIdAndUpdate(id, updateData, { runValidators: true, new: true });
+
+    return {
+        data: course
+    }
+}
+
+const deletedCourse = async (id: string) => {
+    const course = await Course.findByIdAndDelete(id);
+
+    return {
+        data: course
+    }
+}
 
 
 
 export const CourseService = {
     createCourse,
     getAllCourse,
-    getSingleCourse
+    getSingleCourse,
+    updatedCourse,
+    deletedCourse
 }
