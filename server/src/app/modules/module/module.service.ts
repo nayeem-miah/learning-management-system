@@ -8,6 +8,31 @@ const createModule = async (payload: Partial<IModule>) => {
     }
 };
 
+const getAllModule = async () => {
+    const module = await Module.find().populate("course");
+    return {
+        data: module
+    }
+};
+
+const updateModule = async (id: string, payload: Partial<IModule>) => {
+    const module = await Module.findByIdAndUpdate(id, payload, { new: true, runValidators: true });
+
+    return {
+        data: module
+    }
+};
+
+const deleteModule = async (id: string) => {
+    const module = await Module.findByIdAndDelete(id);
+    return {
+        data: module
+    }
+};
+
 export const ModuleService = {
-    createModule
+    createModule,
+    getAllModule,
+    updateModule,
+    deleteModule
 }

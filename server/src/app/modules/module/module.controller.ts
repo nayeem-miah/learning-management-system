@@ -14,6 +14,45 @@ const createModule = catchAsync(async (req: Request, res: Response) => {
 
 });
 
+const getAllModule = catchAsync(async (req: Request, res: Response) => {
+    const result = await ModuleService.getAllModule();
+
+    res.status(200).json({
+        success: true,
+        statusCode: 200,
+        message: "All module get success",
+        data: result.data
+    })
+
+});
+
+const deleteModule = catchAsync(async (req: Request, res: Response) => {
+    const result = await ModuleService.deleteModule(req.params.id);
+
+    res.status(200).json({
+        success: true,
+        statusCode: 200,
+        message: "Module delete success",
+        data: result.data
+    })
+
+});
+
+const updateModule = catchAsync(async (req: Request, res: Response) => {
+    const result = await ModuleService.updateModule(req.params.id, req.body);
+
+    res.status(200).json({
+        success: true,
+        statusCode: 200,
+        message: "Module update success",
+        data: result.data
+    })
+
+});
+
 export const ModuleController = {
-    createModule
+    createModule,
+    getAllModule,
+    deleteModule,
+    updateModule
 }

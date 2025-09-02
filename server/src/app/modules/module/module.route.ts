@@ -10,5 +10,17 @@ router.post("/create",
     checkAuth(Role.ADMIN),
     ModuleController.createModule
 )
+router.get("/",
+    checkAuth(Role.ADMIN),
+    ModuleController.getAllModule
+)
+router.patch("/update/:id",
+    checkAuth(Role.ADMIN),
+    ModuleController.updateModule
+)
+router.delete("/delete/:id",
+    checkAuth(Role.ADMIN),
+    ModuleController.deleteModule
+)
 
 export const ModuleRoutes = router
