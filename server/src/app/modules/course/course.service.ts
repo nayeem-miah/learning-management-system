@@ -10,8 +10,28 @@ const createCourse = async (payload: Partial<ICourse>) => {
     }
 }
 
+const getAllCourse = async () => {
+
+    const course = await Course.find();
+
+    return {
+        data: course
+    }
+}
+
+const getSingleCourse = async (id: string) => {
+
+    const course = await Course.findById(id);
+
+    return {
+        data: course
+    }
+}
+
 
 
 export const CourseService = {
-    createCourse
+    createCourse,
+    getAllCourse,
+    getSingleCourse
 }

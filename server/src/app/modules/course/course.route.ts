@@ -9,6 +9,14 @@ router.post("/create",
     checkAuth(Role.ADMIN),
     CourseController.createCourse
 );
+router.get("/",
+    checkAuth(Role.ADMIN),
+    CourseController.getAllCourse
+);
+router.get("/:id",
+    checkAuth(Role.ADMIN),
+    CourseController.getSingleCourse
+);
 
 
 export const CourseRoutes = router;
