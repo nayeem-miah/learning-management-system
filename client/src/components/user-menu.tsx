@@ -1,4 +1,5 @@
 import {
+  LogIn,
   LogOutIcon
 } from "lucide-react"
 
@@ -16,6 +17,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
+import Link from "next/link"
 
 export default function UserMenu() {
   return (
@@ -28,7 +30,7 @@ export default function UserMenu() {
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="max-w-64 p-4" align="end">
+      <DropdownMenuContent className="max-w-64 p-2" align="end">
         <DropdownMenuLabel className="flex min-w-0 flex-col">
           <span className="text-foreground truncate text-sm font-medium">
             Keith Kennedy
@@ -41,6 +43,10 @@ export default function UserMenu() {
         <DropdownMenuItem>
           <LogOutIcon size={16} className="opacity-60" aria-hidden="true" />
           <span>Logout</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <Link href={'/login'} className="flex items-center gap-3"><LogIn size={16} className="opacity-60" aria-hidden="true" />
+            <span>Login</span></Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

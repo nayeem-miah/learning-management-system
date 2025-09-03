@@ -1,26 +1,10 @@
-import React from 'react'
-import { Button } from '../ui/button'
 
 export default function Footer() {
     return (
         <div>
             <footer className="">
                 <div className="  px-4 pt-16 pb-8 sm:px-6 lg:px-8 lg:pt-24">
-                    <div className="text-center">
-                        <h2 className="text-2xl font-extrabold text-gray-900 sm:text-3xl dark:text-white">
-                            Learning management system
-                        </h2>
 
-                        <p className="mx-auto mt-4 max-w-sm text-gray-500 dark:text-gray-400">
-                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cum maiores ipsum eos temporibus
-                            ea nihil.
-                        </p>
-
-                        <Button className='rounded-full my-2 mt-3'>
-                            Get Started
-                        </Button>
-
-                    </div>
 
                     <div
                         className="mt-16 border-t border-gray-100 pt-8 sm:flex sm:items-center sm:justify-between lg:mt-24 dark:border-gray-800"
