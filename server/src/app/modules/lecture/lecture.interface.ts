@@ -5,4 +5,5 @@ export interface ILecture {
     title: string;
     videoUrl: string;
     pdfNotes?: string[];
+    lectureNumber: number;
 }

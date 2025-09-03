@@ -17,6 +17,10 @@ const lectureSchema = new Schema<ILecture>({
     },
     pdfNotes: {
         type: [String]
+    },
+    lectureNumber: {
+        type: Number,
+        default: 0
     }
 
 },

@@ -27,8 +27,9 @@ const getAllLecture = catchAsync(async (req: Request, res: Response) => {
 });
 
 const moduleIdByGetLecture = catchAsync(async (req: Request, res: Response) => {
-    const { module } = req.params
-    const result = await lectureService.moduleIdByGetLecture(module)
+    const { module } = req.params;
+    const { search } = req.query;
+    const result = await lectureService.getLecturesByModule(module, search as string)
 
     res.status(200).json({
         success: true,
