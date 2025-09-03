@@ -3,6 +3,7 @@ import { UserRouter } from "../modules/user/user.route";
 import { AuthRoutes } from "../modules/auth/auth.route";
 import { CourseRoutes } from "../modules/course/course.route";
 import { ModuleRoutes } from "../modules/module/module.route";
+import { LectureRoutes } from "../modules/lecture/lecture.route";
 
 const router = Router();
 
@@ -27,6 +28,10 @@ const moduleRoutes: IModuleRoute[] = [
     {
         path: "/module",
         route: ModuleRoutes
+    },
+    {
+        path: "/lecture",
+        route: LectureRoutes
     },
 ];
 

@@ -1,31 +1,31 @@
 import { Router } from "express";
 import { checkAuth } from "../../middlewares/checkAuth";
 import { Role } from "../user/user.interface";
-import { ModuleController } from "./module.controller";
+import { LectureController } from "./lecture.controller";
 
 const router = Router();
 
 
 router.post("/create",
     checkAuth(Role.ADMIN),
-    ModuleController.createModule
+    LectureController.createLecture
 )
 router.get("/",
-    // checkAuth(Role.ADMIN),
-    ModuleController.getAllModule
+    checkAuth(Role.ADMIN),
+    LectureController.getAllLecture
 )
-router.get("/:course",
+router.get("/:module",
     checkAuth(...Object.values(Role)),
-    ModuleController.courseIdByGetModule
+    LectureController.moduleIdByGetLecture
 )
 router.patch("/update/:id",
     checkAuth(Role.ADMIN),
-    ModuleController.updateModule
+    LectureController.updateLecture
 )
 router.delete("/delete/:id",
     checkAuth(Role.ADMIN),
-    ModuleController.deleteModule
+    LectureController.deleteLecture
 );
 
 
-export const ModuleRoutes = router
+export const LectureRoutes = router
