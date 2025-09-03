@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import { Lecture } from "../lecture/lecture.model";
 import { Module } from "../module/module.model";
 import { Progress } from "./progress.model";

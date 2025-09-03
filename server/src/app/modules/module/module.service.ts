@@ -16,7 +16,8 @@ const getAllModule = async () => {
 };
 
 const courseIdByGetModule = async (course: string) => {
-    const module = await Module.find({ course: course }).populate("course");
+    const module = await Module.find({ course: course }).populate("course")
+        .sort({ moduleNumber: 1 });
     return {
         data: module
     }
