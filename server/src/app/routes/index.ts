@@ -4,6 +4,7 @@ import { AuthRoutes } from "../modules/auth/auth.route";
 import { CourseRoutes } from "../modules/course/course.route";
 import { ModuleRoutes } from "../modules/module/module.route";
 import { LectureRoutes } from "../modules/lecture/lecture.route";
+import { ProgressRoutes } from "../modules/progress/progress.route";
 
 const router = Router();
 
@@ -33,7 +34,12 @@ const moduleRoutes: IModuleRoute[] = [
         path: "/lecture",
         route: LectureRoutes
     },
+    {
+        path: "/progress",
+        route: ProgressRoutes
+    },
 ];
+
 
 moduleRoutes.forEach(route => {
     router.use(route.path, route.route)

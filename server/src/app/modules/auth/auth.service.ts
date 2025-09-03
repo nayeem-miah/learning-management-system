@@ -13,7 +13,6 @@ const credentialLogin = async (payload: Partial<IUser>) => {
     };
 
     const isPasswordMatch = await bcrypt.compare(password as string, isExit.password);
-    console.log(isPasswordMatch);
 
     if (!isPasswordMatch) {
         throw new Error("Invalid password!")

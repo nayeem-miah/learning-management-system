@@ -8,7 +8,7 @@ export const checkAuth = (...AuthRoutes: string[]) =>
 
         try {
             const accessToken = req.headers.authorization || req.cookies.accessToken;
-            console.log(accessToken);
+            // console.log(accessToken);
             if (!accessToken) {
                 throw new Error("access token not found");
             }
