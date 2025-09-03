@@ -15,4 +15,4 @@ export const createUserToken = (user: Partial<IUser>) => {
         expiresIn: envVars.JWT_EXPIRE
     } as SignOptions);
     return generateToken
-}
+};
