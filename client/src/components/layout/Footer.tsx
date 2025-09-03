@@ -5,7 +5,7 @@ export default function Footer() {
     return (
         <div>
             <footer className="">
-                <div className="mx-auto max-w-screen-xl px-4 pt-16 pb-8 sm:px-6 lg:px-8 lg:pt-24">
+                <div className="  px-4 pt-16 pb-8 sm:px-6 lg:px-8 lg:pt-24">
                     <div className="text-center">
                         <h2 className="text-2xl font-extrabold text-gray-900 sm:text-3xl dark:text-white">
                             Learning management system

@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased `}
       >
         <Navbar />
         {/* <ThemeProvider
@@ -36,7 +36,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         > */}
-        {children}
+        <div className="mx-auto max-w-7xl">
+          {children}
+        </div>
         {/* </ThemeProvider> */}
         <Footer />
       </body>
