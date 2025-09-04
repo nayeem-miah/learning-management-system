@@ -1,3 +1,4 @@
+"use client"
 import Logo from "@/components/logo"
 import { Button } from "@/components/ui/button"
 import {
@@ -12,6 +13,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import UserMenu from "@/components/user-menu"
+import { usePathname } from "next/navigation"
 
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
@@ -21,9 +23,16 @@ const navigationLinks = [
   { href: "/about", label: "About" },
 ]
 
+
+
 export default function Navbar() {
+  const pathName = usePathname();
+  // const router = useRouter();
+  console.log(pathName);
+
+  if (pathName.includes("dashboard")) return <div></div>
   return (
-    <header className="border-b px-4 md:px-6">
+    <header className={"border-b px-4 md:px-6 pb-6"}>
       <div className="flex h-16 items-center justify-between gap-4">
         {/* Left side */}
         <div className="flex items-center gap-2">

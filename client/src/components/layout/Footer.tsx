@@ -1,9 +1,15 @@
+"use client"
+import { usePathname } from "next/navigation";
 
 export default function Footer() {
+    const pathName = usePathname();
+
+    if (pathName.includes("dashboard")) return <div></div>
+
     return (
         <div>
             <footer className="">
-                <div className="  px-4 pt-16 pb-8 sm:px-6 lg:px-8 lg:pt-24">
+                <div className="  px-4 pt-8 pb-8 sm:px-6 lg:px-8 ">
 
 
                     <div
