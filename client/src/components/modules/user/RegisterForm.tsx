@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -9,6 +10,8 @@ import Password from "./Password"
 import Link from "next/link"
 import axiosInstance from "@/components/utils/axiosInstance"
 import axios from "axios"
+import { toast } from "sonner"
+import { useRouter } from "next/navigation"
 
 
 const registerSchema = z
@@ -25,7 +28,7 @@ const registerSchema = z
 
 
 export function RegisterForm() {
-
+    const router = useRouter();
 
 
     const form = useForm<z.infer<typeof registerSchema>>({
@@ -51,9 +54,16 @@ export function RegisterForm() {
 
         try {
             const res = await axiosInstance.post("/user/register", userInfo)
-            console.log(res);
-        } catch (error) {
+
+            if (res.status == 201) {
+                toast.success("User create success success ✅")
+                router.push("/login")
+                form.reset()
+            }
+
+        } catch (error: any) {
             console.log(error);
+            toast.error(error?.response?.data?.message)
         }
     }
 

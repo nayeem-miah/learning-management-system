@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
@@ -8,6 +9,9 @@ import Link from "next/link"
 import z from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
+import axiosInstance from "@/components/utils/axiosInstance"
+import { toast } from "sonner"
+import { useRouter } from "next/navigation"
 
 
 const loginSchema = z.object({
@@ -18,6 +22,7 @@ const loginSchema = z.object({
 })
 
 export function LoginForm() {
+    const router = useRouter();
 
     const form = useForm<z.infer<typeof loginSchema>>({
         resolver: zodResolver(loginSchema),
@@ -27,7 +32,21 @@ export function LoginForm() {
         }
     })
     const onSubmit = async (data: z.infer<typeof loginSchema>) => {
-        console.log(data);
+        const userInfo = {
+            email: data.email,
+            password: data.password
+        }
+        try {
+            const res = await axiosInstance.post("/auth/login", userInfo)
+            if (res.status === 201) {
+                toast.success("user login success");
+                router.push("/")
+                form.reset()
+            }
+        } catch (error: any) {
+            console.log(error);
+            toast.error(error?.response?.data?.message)
+        }
     }
 
     return (
