@@ -7,6 +7,8 @@ import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import Password from "./Password"
 import Link from "next/link"
+import axiosInstance from "@/components/utils/axiosInstance"
+import axios from "axios"
 
 
 const registerSchema = z
@@ -25,6 +27,7 @@ const registerSchema = z
 export function RegisterForm() {
 
 
+
     const form = useForm<z.infer<typeof registerSchema>>({
         resolver: zodResolver(registerSchema),
         defaultValues: {
@@ -36,9 +39,7 @@ export function RegisterForm() {
         }
     });
 
-    // const onSubmit : SubmitHandler<FieldValues>= (data) => {
-    //     console.log(data);
-    // }
+
     const onSubmit = async (data: z.infer<typeof registerSchema>) => {
 
         const userInfo = {
@@ -49,7 +50,8 @@ export function RegisterForm() {
         }
 
         try {
-            console.log(userInfo);
+            const res = await axiosInstance.post("/user/register", userInfo)
+            console.log(res);
         } catch (error) {
             console.log(error);
         }
