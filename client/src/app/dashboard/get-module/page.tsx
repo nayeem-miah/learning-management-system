@@ -1,7 +1,10 @@
+import { ModuleTable } from '@/components/modules/dashboard/ModuleTable'
 import React from 'react'
 
 export default function GetModule() {
     return (
-        <div>GetModule</div>
+        <div>
+            <ModuleTable />
+        </div>
     )
 }

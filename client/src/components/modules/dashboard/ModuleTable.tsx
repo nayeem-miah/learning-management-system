@@ -11,36 +11,35 @@ import {
     TableRow
 } from "@/components/ui/table"
 import axiosInstance from "@/components/utils/axiosInstance"
-import { GetCourses } from "@/components/utils/getCourse"
+import { GetModules } from "@/components/utils/getModule"
 import { Edit2, Trash2 } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { toast } from "sonner"
 
-interface Course {
+interface Module {
     _id: string
     title: string
-    price: number
 }
 
-export function CourseTable() {
-    const [courses, setCourses] = useState<Course[]>([])
+export function ModuleTable() {
+    const [modules, setModules] = useState<Module[]>([])
 
     useEffect(() => {
-        const fetchCourse = async () => {
-            const data = await GetCourses()
-            setCourses(data || [])
+        const fetchModule = async () => {
+            const data = await GetModules()
+            setModules(data || [])
         }
-        fetchCourse()
+        fetchModule()
     }, [])
-
+    console.log(modules);
     const handleDelete = async (id: string) => {
         try {
-            const res = await axiosInstance.delete(`/course/delete/${id}`)
+            const res = await axiosInstance.delete(`/module/delete/${id}`)
             if (res.data.success) {
                 toast.success(res.data.message)
-                const remainingData = courses.filter(course => course._id !== id)
-                setCourses(remainingData);
+                const remainingData = modules.filter(module => module._id !== id)
+                setModules(remainingData);
             }
         } catch (error: any) {
             console.log(error);
@@ -48,30 +47,28 @@ export function CourseTable() {
         }
     };
 
-    if (courses.length === 0) return <div>No course found <Link className="underline text-rose-500" href={"/dashboard/add-course"}>please add Course</Link></div>
+    if (modules.length === 0) return <div>No Modules found <Link className="underline text-rose-500" href={"/dashboard/add-module"}>please add module</Link></div>
 
     return (
         <Table>
             <TableHeader>
                 <TableRow>
                     <TableHead>Title</TableHead>
-                    <TableHead>Price</TableHead>
                     <TableHead>Delete</TableHead>
                     <TableHead>Edit</TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {courses?.map((course) => (
-                    <TableRow key={course._id}>
-                        <TableCell>{course.title}</TableCell>
-                        <TableCell>{course.price}</TableCell>
+                {modules?.map((module) => (
+                    <TableRow key={module._id}>
+                        <TableCell>{module.title}</TableCell>
                         <TableCell>
-                            <Button onClick={() => handleDelete(course._id)}>
+                            <Button onClick={() => handleDelete(module._id)}>
                                 <Trash2 size={10} />
                             </Button>
                         </TableCell>
                         <TableCell>
-                            <Link href={`/dashboard/edit-course/${course._id}`}>
+                            <Link href={`/dashboard/edit-module/${module._id}`}>
                                 <Edit2 size={12} />
                             </Link>
                         </TableCell>

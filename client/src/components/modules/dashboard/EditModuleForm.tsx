@@ -4,21 +4,30 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectValue } from '@/components/ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import axiosInstance from '@/components/utils/axiosInstance';
 import { GetCourses } from '@/components/utils/getCourse';
-import { SelectTrigger } from '@radix-ui/react-select';
-import { useRouter } from 'next/navigation';
+import { GetSingleModule } from '@/components/utils/getSingleModule';
+import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-
-
-
-export default function AddModuleForm() {
+export default function EditModuleForm() {
+    const { id } = useParams()
     const [course, setCourse] = useState<any>(null);
+    const [module, setModule] = useState<any>(null);
     const router = useRouter()
+
+    useEffect(() => {
+        const fetchModule = async () => {
+            const data = await GetSingleModule(id as string)
+            setModule(data)
+        }
+        fetchModule()
+    }, [id])
+
+
 
     useEffect(() => {
         const fetchCourse = async () => {
@@ -27,7 +36,7 @@ export default function AddModuleForm() {
         }
         fetchCourse()
     }, [])
-    // console.log(course);
+
 
     const courseOptions = course?.map(
         (item: { _id: string; title: string }) => ({
@@ -38,15 +47,17 @@ export default function AddModuleForm() {
 
     const form = useForm({
         defaultValues: {
-            course: "",
-            title: "",
+            course: module?.course,
+            title: module?.title,
         }
     });
+
     const onSubmit = async (data: any) => {
 
         const toastId = toast.loading("loading....")
         try {
-            const res = await axiosInstance.post("/module/create", data);
+            const res = await axiosInstance.patch(`/module/update/${id}`, data);
+            console.log(res);
             if (res.data.success) {
                 toast.success(res.data.message, { id: toastId })
                 form.reset()
@@ -58,11 +69,11 @@ export default function AddModuleForm() {
         }
     }
     return (
-        <div className='max-w-4xl mx-auto'>
+        <div>
             <Card>
-                <CardHeader className='text-center'>
-                    <CardTitle>Add New Module</CardTitle>
-                    <CardDescription>Add a new module to the system</CardDescription>
+                <CardHeader>
+                    <CardTitle>Edit module</CardTitle>
+                    <CardDescription>Edit module to the system</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <Form {...form}>
@@ -71,6 +82,7 @@ export default function AddModuleForm() {
                             className="space-y-5"
                             onSubmit={form.handleSubmit(onSubmit)}
                         >
+
                             <FormField
                                 control={form.control}
                                 name="course"
@@ -79,8 +91,9 @@ export default function AddModuleForm() {
                                         <FormLabel>course</FormLabel>
                                         <Select
                                             onValueChange={field.onChange}
-                                            defaultValue={field.value}
+                                            defaultValue={module?.course}
                                         // disabled={divisionLoading}
+
                                         >
                                             <FormControl>
                                                 <SelectTrigger className="w-full border">
@@ -103,6 +116,7 @@ export default function AddModuleForm() {
                                     </FormItem>
                                 )}
                             />
+
                             <FormField
                                 control={form.control}
                                 name="title"
@@ -110,18 +124,20 @@ export default function AddModuleForm() {
                                     <FormItem>
                                         <FormLabel>module Title</FormLabel>
                                         <FormControl>
-                                            <Input {...field} type='text' placeholder='enter your module title' required />
+                                            <Input {...field} defaultValue={module?.title} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
                                 )}
                             />
+
+
                         </form>
                     </Form>
                 </CardContent>
                 <CardFooter className="flex justify-end">
                     <Button type="submit" className='w-full' form="add-module">
-                        Create module
+                        Edit module
                     </Button>
                 </CardFooter>
             </Card>

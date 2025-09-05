@@ -39,6 +39,19 @@ const courseIdByGetModule = catchAsync(async (req: Request, res: Response) => {
 
 });
 
+const getSingleModule = catchAsync(async (req: Request, res: Response) => {
+    const { id } = req.params
+    const result = await ModuleService.getSingleModule(id)
+
+    res.status(200).json({
+        success: true,
+        statusCode: 200,
+        message: " module get success",
+        data: result.data
+    })
+
+});
+
 const deleteModule = catchAsync(async (req: Request, res: Response) => {
     const result = await ModuleService.deleteModule(req.params.id);
 
@@ -68,5 +81,6 @@ export const ModuleController = {
     getAllModule,
     deleteModule,
     updateModule,
-    courseIdByGetModule
+    courseIdByGetModule,
+    getSingleModule
 }

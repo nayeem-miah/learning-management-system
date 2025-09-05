@@ -11,36 +11,37 @@ import {
     TableRow
 } from "@/components/ui/table"
 import axiosInstance from "@/components/utils/axiosInstance"
-import { GetCourses } from "@/components/utils/getCourse"
+import { GetLecture } from "@/components/utils/getLecture"
 import { Edit2, Trash2 } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { toast } from "sonner"
 
-interface Course {
+interface Lecture {
     _id: string
-    title: string
-    price: number
+    title: string;
+    videoUrl: string;
+    pdfNotes?: string[];
 }
 
-export function CourseTable() {
-    const [courses, setCourses] = useState<Course[]>([])
+export function LectureTable() {
+    const [lectures, setLectures] = useState<Lecture[]>([])
 
     useEffect(() => {
-        const fetchCourse = async () => {
-            const data = await GetCourses()
-            setCourses(data || [])
+        const fetchLecture = async () => {
+            const data = await GetLecture()
+            setLectures(data || [])
         }
-        fetchCourse()
+        fetchLecture()
     }, [])
-
+    console.log(lectures);
     const handleDelete = async (id: string) => {
         try {
-            const res = await axiosInstance.delete(`/course/delete/${id}`)
+            const res = await axiosInstance.delete(`/lecture/delete/${id}`)
             if (res.data.success) {
                 toast.success(res.data.message)
-                const remainingData = courses.filter(course => course._id !== id)
-                setCourses(remainingData);
+                const remainingData = lectures.filter(lecture => lecture._id !== id)
+                setLectures(remainingData);
             }
         } catch (error: any) {
             console.log(error);
@@ -48,30 +49,28 @@ export function CourseTable() {
         }
     };
 
-    if (courses.length === 0) return <div>No course found <Link className="underline text-rose-500" href={"/dashboard/add-course"}>please add Course</Link></div>
+    if (lectures.length === 0) return <div>No lectures found <Link className="underline text-rose-500" href={"/dashboard/add-lecture"}>please add lecture</Link></div>
 
     return (
         <Table>
             <TableHeader>
                 <TableRow>
                     <TableHead>Title</TableHead>
-                    <TableHead>Price</TableHead>
                     <TableHead>Delete</TableHead>
                     <TableHead>Edit</TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {courses?.map((course) => (
-                    <TableRow key={course._id}>
-                        <TableCell>{course.title}</TableCell>
-                        <TableCell>{course.price}</TableCell>
+                {lectures?.map((lecture) => (
+                    <TableRow key={lecture._id}>
+                        <TableCell>{lecture.title}</TableCell>
                         <TableCell>
-                            <Button onClick={() => handleDelete(course._id)}>
+                            <Button onClick={() => handleDelete(lecture._id)}>
                                 <Trash2 size={10} />
                             </Button>
                         </TableCell>
                         <TableCell>
-                            <Link href={`/dashboard/edit-course/${course._id}`}>
+                            <Link href={`/dashboard/edit-lecture/${lecture._id}`}>
                                 <Edit2 size={12} />
                             </Link>
                         </TableCell>

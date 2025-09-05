@@ -18,6 +18,10 @@ router.get("/:course",
     checkAuth(...Object.values(Role)),
     ModuleController.courseIdByGetModule
 )
+router.get("/single/:id",
+    checkAuth(...Object.values(Role)),
+    ModuleController.getSingleModule
+)
 router.patch("/update/:id",
     checkAuth(Role.ADMIN),
     ModuleController.updateModule

@@ -23,6 +23,13 @@ const courseIdByGetModule = async (course: string) => {
     }
 };
 
+const getSingleModule = async (id: string) => {
+    const module = await Module.findById(id)
+    return {
+        data: module
+    }
+};
+
 const updateModule = async (id: string, payload: Partial<IModule>) => {
     const module = await Module.findByIdAndUpdate(id, payload, { new: true, runValidators: true });
 
@@ -43,5 +50,6 @@ export const ModuleService = {
     getAllModule,
     updateModule,
     deleteModule,
-    courseIdByGetModule
+    courseIdByGetModule,
+    getSingleModule
 }

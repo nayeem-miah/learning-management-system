@@ -53,7 +53,7 @@ export default function AddLectureForm() {
             if (res.data.success) {
                 toast.success(res.data.message, { id: toastId })
                 form.reset()
-                router.push('/')
+                router.push('/dashboard/get-lecture')
             }
         } catch (error: any) {
             console.log(error)
