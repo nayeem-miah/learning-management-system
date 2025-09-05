@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 import Logo from "@/components/logo"
 import { Button } from "@/components/ui/button"
@@ -14,23 +15,40 @@ import {
 } from "@/components/ui/popover"
 import UserMenu from "@/components/user-menu"
 import { usePathname } from "next/navigation"
+import { useEffect, useState } from "react"
+import { GetUser } from "../utils/getMe"
+import { Role } from "../constance/role"
+import Link from "next/link"
 
 // Navigation links array to be used in both desktop and mobile menus
-const navigationLinks = [
-  { href: "/", label: "Home" },
-  { href: "/course", label: "Course" },
-  { href: "/dashboard", label: "Dashboard" },
-  { href: "/about", label: "About" },
-]
 
+const navigationLinks = [
+  { href: "/", label: "Home", role: "public" },
+  { href: "/course", label: "Course", role: "public" },
+  { href: "/about", label: "About", role: "public" },
+  { href: "/dashboard", label: "Dashboard", role: Role.ADMIN },
+]
 
 
 export default function Navbar() {
   const pathName = usePathname();
   // const router = useRouter();
-  console.log(pathName);
+  // console.log(pathName);
+  const [user, setUser] = useState<any>(null);
+  // console.log(user);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const data = await GetUser()
+      setUser(data)
+    }
+    fetchUser()
+  }, [])
+
 
   if (pathName.includes("dashboard")) return <div></div>
+
+
   return (
     <header className={"border-b px-4 md:px-6 pb-6"}>
       <div className="flex h-16 items-center justify-between gap-4">
@@ -75,11 +93,35 @@ export default function Navbar() {
               <NavigationMenu className="max-w-none *:w-full">
                 <NavigationMenuList className="flex-col items-start gap-0 md:gap-2">
                   {navigationLinks.map((link, index) => (
-                    <NavigationMenuItem key={index} className="w-full">
-                      <NavigationMenuLink href={link.href} className="py-1.5">
-                        {link.label}
-                      </NavigationMenuLink>
-                    </NavigationMenuItem>
+                    <div key={index}>
+                      {
+                        link.role === "public" && (
+                          <NavigationMenuItem
+                            className="w-full"
+                          >
+                            <NavigationMenuLink
+                              asChild
+                              href={link.href}
+                              className="py-1.5"
+                            >
+                              <Link href={link.href}>{link.label}</Link>
+                            </NavigationMenuLink>
+                          </NavigationMenuItem>)
+                      }
+                      {
+                        link.role === user?.role &&
+                        (<NavigationMenuItem key={index} className="w-full">
+                          <NavigationMenuLink
+                            asChild
+                            href={link.href}
+                            className="py-1.5"
+                          >
+                            <Link href={link.href}>{link.label}</Link>
+                          </NavigationMenuLink>
+                        </NavigationMenuItem>)
+                      }
+
+                    </div>
                   ))}
                 </NavigationMenuList>
               </NavigationMenu>
@@ -114,7 +156,7 @@ export default function Navbar() {
 
           </div>
           {/* User menu */}
-          <UserMenu />
+          <UserMenu user={user} />
         </div>
       </div>
     </header>

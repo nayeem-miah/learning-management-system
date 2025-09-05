@@ -1,6 +1,9 @@
+import AddModuleForm from "@/components/modules/dashboard/AddModuleForm";
 
 export default function AddModule() {
     return (
-        <div>AddModule</div>
+        <div>
+            <AddModuleForm />
+        </div>
     )
 }
