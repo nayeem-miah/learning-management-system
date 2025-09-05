@@ -5,31 +5,59 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectValue } from '@/components/ui/select';
+import axiosInstance from '@/components/utils/axiosInstance';
+import { GetModules } from '@/components/utils/getModule';
 import { SelectTrigger } from '@radix-ui/react-select';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
-const moduleOptions = [
-    {
-        value: "dfdf56565",
-        label: "react "
-    },
-    {
-        value: "65756yjytu78",
-        label: "react -2"
-    }
-]
+
 
 
 export default function AddLectureForm() {
 
-    const form = useForm();
+    const [module, setModule] = useState<any>(null);
+    const router = useRouter()
+
+    useEffect(() => {
+        const fetchModules = async () => {
+            const data = await GetModules()
+            setModule(data)
+        }
+        fetchModules()
+    }, [])
+    // console.log(module);
+
+    const moduleOptions = module?.map(
+        (item: { _id: string; title: string }) => ({
+            value: item._id,
+            label: item.title,
+        })
+    );
+
+    const form = useForm({
+        defaultValues: {
+            module: "",
+            title: "",
+            videoUrl: "",
+            pdfNotes: "",
+        }
+    });
     const onSubmit = async (data: any) => {
-        console.log(data);
+
+        const toastId = toast.loading("loading....")
         try {
-
-        } catch (error) {
+            const res = await axiosInstance.post("/lecture/create", data);
+            if (res.data.success) {
+                toast.success(res.data.message, { id: toastId })
+                form.reset()
+                router.push('/')
+            }
+        } catch (error: any) {
             console.log(error)
-
+            toast.error(error.message, { id: toastId })
         }
     }
     return (
