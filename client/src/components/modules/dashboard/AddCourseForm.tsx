@@ -5,19 +5,34 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import React from 'react'
+import axiosInstance from '@/components/utils/axiosInstance';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 export default function AddCourseForm() {
+    const router = useRouter()
 
-    const form = useForm();
+    const form = useForm({
+        defaultValues: {
+            thumbnail: "",
+            title: "",
+            price: "",
+            description: "",
+        }
+    });
     const onSubmit = async (data: any) => {
-        console.log(data);
+        const toastId = toast.loading("loading....")
         try {
-
-        } catch (error) {
+            const res = await axiosInstance.post("/course/create", data);
+            if (res.data.success) {
+                toast.success(res.data.message, { id: toastId })
+                form.reset()
+                router.push('/')
+            }
+        } catch (error: any) {
             console.log(error)
-
+            toast.error(error.message, { id: toastId })
         }
     }
     return (

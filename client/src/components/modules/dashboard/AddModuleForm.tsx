@@ -5,31 +5,56 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectValue } from '@/components/ui/select';
+import axiosInstance from '@/components/utils/axiosInstance';
+import { GetCourses } from '@/components/utils/getCourse';
 import { SelectTrigger } from '@radix-ui/react-select';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
-const courseOptions = [
-    {
-        value: "6587jtjhtug",
-        label: "Web development"
-    },
-    {
-        value: "6587jdfffd45tjhtug",
-        label: "App  development"
-    }
-]
+
 
 
 export default function AddModuleForm() {
+    const [course, setCourse] = useState<any>(null);
+    const router = useRouter()
 
-    const form = useForm();
+    useEffect(() => {
+        const fetchCourse = async () => {
+            const data = await GetCourses()
+            setCourse(data)
+        }
+        fetchCourse()
+    }, [])
+    // console.log(course);
+
+    const courseOptions = course?.map(
+        (item: { _id: string; title: string }) => ({
+            value: item._id,
+            label: item.title,
+        })
+    );
+
+    const form = useForm({
+        defaultValues: {
+            course: "",
+            title: "",
+        }
+    });
     const onSubmit = async (data: any) => {
-        console.log(data);
+
+        const toastId = toast.loading("loading....")
         try {
-
-        } catch (error) {
+            const res = await axiosInstance.post("/module/create", data);
+            if (res.data.success) {
+                toast.success(res.data.message, { id: toastId })
+                form.reset()
+                router.push('/')
+            }
+        } catch (error: any) {
             console.log(error)
-
+            toast.error(error.message, { id: toastId })
         }
     }
     return (
