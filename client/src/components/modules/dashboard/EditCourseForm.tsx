@@ -6,25 +6,40 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import axiosInstance from '@/components/utils/axiosInstance';
-import { useRouter } from 'next/navigation';
+import { GetSIngleById } from '@/components/utils/getSingleById';
+import { useParams, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-export default function AddCourseForm() {
+export default function EditCourseForm() {
+    const { id } = useParams()
+
+    const [course, setCourse] = useState<any>(null);
     const router = useRouter()
+
+    useEffect(() => {
+        const fetchCourse = async () => {
+            const data = await GetSIngleById(id as string)
+            setCourse(data)
+        }
+        fetchCourse()
+    }, [id])
+    console.log(course);
 
     const form = useForm({
         defaultValues: {
-            thumbnail: "",
-            title: "",
-            price: "",
-            description: "",
+            thumbnail: course?.thumbnail,
+            title: course?.title,
+            price: course?.price,
+            description: course?.description,
         }
     });
     const onSubmit = async (data: any) => {
         const toastId = toast.loading("loading....")
         try {
-            const res = await axiosInstance.post("/course/create", data);
+            const res = await axiosInstance.patch(`/course/update/${id}`, data);
+            console.log(res);
             if (res.data.success) {
                 toast.success(res.data.message, { id: toastId })
                 form.reset()
@@ -39,8 +54,8 @@ export default function AddCourseForm() {
         <div>
             <Card>
                 <CardHeader>
-                    <CardTitle>Add New Course</CardTitle>
-                    <CardDescription>Add a new course to the system</CardDescription>
+                    <CardTitle>Edit Course</CardTitle>
+                    <CardDescription>Edit course to the system</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <Form {...form}>
@@ -56,7 +71,7 @@ export default function AddCourseForm() {
                                     <FormItem>
                                         <FormLabel>thumbnail</FormLabel>
                                         <FormControl>
-                                            <Input {...field} required placeholder='thumbnail' />
+                                            <Input {...field} defaultValue={course?.thumbnail} placeholder='thumbnail' />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -69,7 +84,7 @@ export default function AddCourseForm() {
                                     <FormItem>
                                         <FormLabel>course Title</FormLabel>
                                         <FormControl>
-                                            <Input {...field} required />
+                                            <Input {...field} defaultValue={course?.title} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -83,7 +98,7 @@ export default function AddCourseForm() {
                                     <FormItem >
                                         <FormLabel>price</FormLabel>
                                         <FormControl>
-                                            <Input {...field} type='number' required />
+                                            <Input {...field} type='number' defaultValue={course?.price} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -97,7 +112,9 @@ export default function AddCourseForm() {
                                     <FormItem className="flex-1">
                                         <FormLabel>Description</FormLabel>
                                         <FormControl>
-                                            <Textarea {...field} className="h-[205px]" />
+                                            <Textarea {...field}
+                                                defaultValue={course?.description}
+                                                className="h-[205px]" />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -108,7 +125,7 @@ export default function AddCourseForm() {
                 </CardContent>
                 <CardFooter className="flex justify-end">
                     <Button type="submit" className='w-full' form="add-course">
-                        Create course
+                        Edit course
                     </Button>
                 </CardFooter>
             </Card>
