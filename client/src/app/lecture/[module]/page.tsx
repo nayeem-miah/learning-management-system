@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { GetSingleModuleByLecture } from "@/components/utils/getSingleModuleByLecture";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 type LectureType = {
@@ -19,7 +19,7 @@ type LectureType = {
 export default function Page() {
     const { module } = useParams();
     const [lectures, setLectures] = useState<LectureType[]>([]);
-    const router = useRouter();
+    const [unlockedIndex, setUnlockedIndex] = useState(0);
 
     useEffect(() => {
         const fetchLecture = async () => {
@@ -29,38 +29,77 @@ export default function Page() {
         fetchLecture();
     }, [module]);
 
-    // console.log(lectures);
-
     if (!lectures || lectures.length === 0) {
-        return <div className="p-6 text-gray-500">No module found</div>;
+        return <div className="p-6 text-gray-500">No lecture found</div>;
     }
 
     return (
-        <div className="p-6 max-w-3xl mx-auto space-y-4">
-            <h1 className="text-2xl font-bold mb-4">lecture</h1>
+        <div className="p-6 max-w-3xl mx-auto space-y-6">
+            <h1 className="text-2xl font-bold mb-4">Lectures</h1>
 
-            {lectures?.map((lec) => (
-                <Card key={lec._id} className="shadow-lg rounded-2xl">
-                    <CardHeader>
-                        <CardTitle className="text-lg font-semibold">
-                            {lec.lectureNumber}. {lec.title}
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <p className="text-gray-500 mb-4">
-                            Created at: {new Date(lec.createdAt).toLocaleDateString()}
-                        </p>
+            {lectures?.map((lec, index) => {
+                const isLocked = index > unlockedIndex;
 
-                        {/* Continue / Next Module Button */}
-                        <Button
-                            className="w-full"
-                            onClick={() => router.push(`/lecture/${lec._id}`)}
-                        >
-                            Continue lecture
-                        </Button>
-                    </CardContent>
-                </Card>
-            ))}
+                return (
+                    <Card
+                        key={lec._id}
+                        className={`shadow-lg rounded-2xl ${isLocked ? "opacity-50" : ""}`}
+                    >
+                        <CardHeader>
+                            <CardTitle className="text-lg font-semibold">
+                                {lec.lectureNumber}. {lec.title}
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <p className="text-gray-500 mb-4">
+                                Created at: {new Date(lec.createdAt).toLocaleDateString()}
+                            </p>
+
+                            {!isLocked && (
+                                <div
+                                    className="w-full mb-4"
+                                    dangerouslySetInnerHTML={{ __html: lec.videoUrl }}
+                                />
+                            )}
+
+                            {/* PDF Notes */}
+                            {!isLocked && lec.pdfNotes && lec.pdfNotes.length > 0 && (
+                                <div className="mb-4 space-y-2">
+                                    <h4 className="font-semibold">Notes:</h4>
+                                    {lec.pdfNotes.map((note, i) => (
+                                        <a
+                                            key={i}
+                                            href={note}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-blue-500 underline"
+                                        >
+                                            Download Note {i + 1}
+                                        </a>
+                                    ))}
+                                </div>
+                            )}
+
+                            {/* Next Lecture Button */}
+                            {!isLocked && index < lectures.length - 1 && (
+                                <Button
+                                    className="w-full"
+                                    onClick={() => setUnlockedIndex(index + 1)}
+                                >
+                                    Unlock Next Lecture
+                                </Button>
+                            )}
+
+                            {/* Locked State */}
+                            {isLocked && (
+                                <p className="text-red-500 text-sm italic">
+                                    🔒 Locked — Complete previous lecture to unlock
+                                </p>
+                            )}
+                        </CardContent>
+                    </Card>
+                );
+            })}
         </div>
     );
 }
