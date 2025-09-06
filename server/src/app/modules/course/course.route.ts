@@ -10,7 +10,7 @@ router.post("/create",
     CourseController.createCourse
 );
 router.get("/",
-    checkAuth(Role.ADMIN),
+    // checkAuth(Role.ADMIN),
     CourseController.getAllCourse
 );
 router.get("/:id",

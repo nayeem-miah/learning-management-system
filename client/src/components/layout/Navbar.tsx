@@ -135,15 +135,36 @@ export default function Navbar() {
             {/* Navigation menu */}
             <NavigationMenu className="max-md:hidden">
               <NavigationMenuList className="gap-2">
-                {navigationLinks.map((link, index) => (
-                  <NavigationMenuItem key={index}>
-                    <NavigationMenuLink
-                      href={link.href}
-                      className="text-muted-foreground hover:text-primary py-1.5 font-medium"
-                    >
-                      {link.label}
-                    </NavigationMenuLink>
-                  </NavigationMenuItem>
+                {navigationLinks.map((link, index = 0) => (
+                  <div key={index++}>
+                    {
+                      link.role === "public" && (
+                        <NavigationMenuItem
+                          className="w-full"
+                        >
+                          <NavigationMenuLink
+                            asChild
+                            href={link.href}
+                            className="py-1.5"
+                          >
+                            <Link href={link.href}>{link.label}</Link>
+                          </NavigationMenuLink>
+                        </NavigationMenuItem>)
+                    }
+                    {
+                      link.role === user?.role &&
+                      (<NavigationMenuItem key={index} className="w-full">
+                        <NavigationMenuLink
+                          asChild
+                          href={link.href}
+                          className="py-1.5"
+                        >
+                          <Link href={link.href}>{link.label}</Link>
+                        </NavigationMenuLink>
+                      </NavigationMenuItem>)
+                    }
+
+                  </div>
                 ))}
               </NavigationMenuList>
             </NavigationMenu>

@@ -7,7 +7,9 @@ let server: Server;
 
 const startServer = async () => {
     try {
-        await mongoose.connect(envVars.DB_URL);
+        await mongoose.connect(envVars.DB_URL, {
+            serverSelectionTimeoutMS: 5000,
+        });
         console.log("Connected to DB!");
 
         server = app.listen(envVars.PORT, () => {
