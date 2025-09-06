@@ -6,8 +6,8 @@ const AuthToken = (res, userInfo) => {
     if (userInfo.accessToken) {
         res.cookie("accessToken", userInfo.accessToken, {
             httpOnly: true,
-            secure: true,
-            sameSite: "none"
+            secure: process.env.NODE_ENV === "production",
+            sameSite: process.env.NODE_ENV === "production" ? "none" : "lax"
         });
     }
 };
