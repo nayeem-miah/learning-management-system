@@ -34,7 +34,7 @@ export function LectureTable() {
         }
         fetchLecture()
     }, [])
-    console.log(lectures);
+    // console.log(lectures);
     const handleDelete = async (id: string) => {
         try {
             const res = await axiosInstance.delete(`/lecture/delete/${id}`)

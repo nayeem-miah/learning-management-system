@@ -32,7 +32,7 @@ export function ModuleTable() {
         }
         fetchModule()
     }, [])
-    console.log(modules);
+    // console.log(modules);
     const handleDelete = async (id: string) => {
         try {
             const res = await axiosInstance.delete(`/module/delete/${id}`)

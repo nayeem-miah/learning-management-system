@@ -1,8 +1,9 @@
 import axiosInstance from "./axiosInstance"
 
-export const GetSingleCourseByModule = async (course: string) => {
+export const GetSingleModuleByLecture = async (module: string) => {
     try {
-        const res = await axiosInstance.get(`/module/${course}`);
+        const res = await axiosInstance.get(`/lecture/${module}`);
+        // console.log(course);
 
         const data = await res.data.data
         return data

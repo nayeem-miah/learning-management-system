@@ -35,7 +35,7 @@ export default function UserMenu({ user }: any) {
   const logout = async () => {
     try {
       const res = await axiosInstance.post("/auth/logout");
-      console.log(res);
+      // console.log(res);
       router.push("/login")
       toast.success("logout success")
     } catch (error) {

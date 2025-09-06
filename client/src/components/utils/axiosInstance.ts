@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const axiosInstance = axios.create({
     // baseURL: process.env.NEXT_PUBLIC_API_URL,
-    baseURL: "http://localhost:5000/api",
+    baseURL: "https://learning-management-api.vercel.app/api",
     withCredentials: true,
     headers: {
         'Content-Type': 'application/json',

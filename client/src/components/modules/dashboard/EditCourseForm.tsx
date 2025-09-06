@@ -25,7 +25,7 @@ export default function EditCourseForm() {
         }
         fetchCourse()
     }, [id])
-    console.log(course);
+    // console.log(course);
 
     const form = useForm({
         defaultValues: {
@@ -39,7 +39,7 @@ export default function EditCourseForm() {
         const toastId = toast.loading("loading....")
         try {
             const res = await axiosInstance.patch(`/course/update/${id}`, data);
-            console.log(res);
+            // console.log(res);
             if (res.data.success) {
                 toast.success(res.data.message, { id: toastId })
                 form.reset()

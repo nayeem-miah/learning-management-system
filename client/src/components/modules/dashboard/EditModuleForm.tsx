@@ -57,7 +57,7 @@ export default function EditModuleForm() {
         const toastId = toast.loading("loading....")
         try {
             const res = await axiosInstance.patch(`/module/update/${id}`, data);
-            console.log(res);
+            // console.log(res);
             if (res.data.success) {
                 toast.success(res.data.message, { id: toastId })
                 form.reset()
