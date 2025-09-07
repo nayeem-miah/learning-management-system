@@ -38,6 +38,7 @@ export function LoginForm() {
         }
         try {
             const res = await axiosInstance.post("/auth/login", userInfo)
+            // console.log(res);
             if (res.status === 201) {
                 toast.success("user login success");
                 router.push("/")
