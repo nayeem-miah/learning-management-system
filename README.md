@@ -2,8 +2,7 @@
 
 A **Learning Management System (LMS)** built with **Next.js (TypeScript)**, **Express.js**, and **MongoDB**. This system allows admins to manage courses, modules, and lectures, while users can view courses, watch lectures, download notes, and track their progress.
 
-[Live Demo](https://learning-management-vert.vercel.app/) | [GitHub Repository](https://github.com/nayeem-miah/learning-management-system.git)
-
+[Live Demo](https://learning-management-vert.vercel.app/) 
 ---
 
 ## Features
@@ -54,8 +53,7 @@ A **Learning Management System (LMS)** built with **Next.js (TypeScript)**, **Ex
 
 ### Prerequisites
 - Node.js v18+
-- MongoDB instance (local or cloud)
-- Yarn or npm
+- npm
 
 ### Clone the Repository
 ```bash
