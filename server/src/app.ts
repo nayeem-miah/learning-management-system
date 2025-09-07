@@ -11,11 +11,13 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 app.use(cors({
-    origin: ["https://learning-management-vert.vercel.app", "http://localhost:3000"],
-    credentials: true,
-    methods: ["GET", "POST", "PATCH", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"]
+    origin: [
+        "http://localhost:3000",
+        "https://learning-management-vert.vercel.app"
+    ],
+    credentials: true
 }));
+
 app.use(cookieParser())
 
 app.use("/api", router)
