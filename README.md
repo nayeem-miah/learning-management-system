@@ -37,7 +37,7 @@ A **Learning Management System (LMS)** built with **Next.js (TypeScript)**, **Ex
    - PDF notes: View/download multiple PDFs per lecture.
 
 3. **Progress Tracking**
-   - Visual progress bar or checkmarks for completed lectures.
+   - Visual progress bar or checkmark for completed lectures.
 
 ---
 
@@ -59,3 +59,11 @@ A **Learning Management System (LMS)** built with **Next.js (TypeScript)**, **Ex
 ```bash
 git clone https://github.com/nayeem-miah/learning-management-system.git
 cd learning-management-system
+
+cd client
+npm i 
+npm run dev
+
+cd client
+npm i 
+npm run dev
