@@ -21,8 +21,8 @@ const logout = catchAsync(async (req: Request, res: Response) => {
     // clear cookie jwt token
     res.clearCookie("accessToken", {
         httpOnly: true,
-        secure: false,
-        sameSite: "lax"
+        secure: true,
+        sameSite: "none"
     })
 
     res.status(200).json({
